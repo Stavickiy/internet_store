@@ -1,0 +1,16 @@
+/* your styles go here */
+.product img {
+  /*filter: grayscale(40%);*/
+  transition: all 0.3s;
+}
+.readonly-input {
+    background-color: transparent; /* Or any other color you prefer */
+}
+
+.list-link {
+    padding-left: 10px; /* Adjust the value as needed */
+}
+
+.nav-link {
+  color: #000;
+}

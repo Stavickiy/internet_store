@@ -1,0 +1,65 @@
+{% extends 'base-2.html' %}
+ 
+{% block content %}
+<section class="py-1 bg-light">
+          <div class="container">
+            <div class="row px-4 px-lg-5 py-lg-4 align-items-center">
+              <div class="col-lg-6">
+                <h1 class="h2 text-uppercase mb-0">Профиль пользователя</h1>
+              </div>
+              <div class="col-lg-6 text-lg-end">
+                <nav aria-label="breadcrumb">
+                  <ol class="breadcrumb justify-content-lg-end mb-0 px-0 bg-light">
+                    <li class="breadcrumb-item"><a class="text-dark" href="{% url 'home' %}">Главная</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Мой профиль</li>
+                  </ol>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </section>
+<div class="container py-4">
+          <div class="row gy-5">
+            <div class="col-lg-9 order-2 order-lg-1">
+              <!-- PROFILE DETAIL FORM-->
+            <div class="col-lg-6 mx-auto">
+            <form method="post" class="text-center">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}success{% endif %}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                {% csrf_token %}
+                <div class="form-error">{{ form.non_field_errors }}</div>
+                {% for f in form %}
+                <p ><label class="form-label" for="{{ f.id_for_label }}">{{f.label}}: </label>{{ f }}</p>
+                <div class="form-error">{{ f.errors }}</div>
+                {% endfor %}
+                <div class="col-lg-12 text-center">
+                    <button class="btn btn-outline-dark" type="submit"> <i class="fas fa-save me-2"></i>Сохранить изменеия</button>
+                  </div>
+            </form>
+                </div>
+            </div>
+            <div class="col-lg-3 order-1 order-lg-2">
+              <h3 class="h4 text-uppercase lined mb-4">Ваш профиль</h3>
+              <nav class="nav flex-column nav-pills">
+                  <a class="nav-link text-sm active" href="{% url 'users:profile' %}"> <i class="me-2 fas fa-user"></i><span>Мой профиль</span></a>
+                  {% if not perms.users.social_auth %}
+                  <a class="nav-link text-sm" href="{% url 'users:password_change' %}"> <i class="me-2 fas fa-pen"></i><span>Смена пароля</span></a>
+                  {% endif %}
+                  <a class="nav-link text-sm" href="{% url 'orders:orders_history' %}"> <i class="me-2 fas fa-list"></i><span>История заказов</span></a>
+                  <a class="nav-link text-sm" href="{% url 'preorders:preorders_history' %}"> <i class="me-2 fas fa-heart"></i><span>История предзаказов</span></a>
+                  <form id="logout-form" action="{% url 'users:logout' %}" method="post" style="display: none;">
+                            {% csrf_token %}
+                            </form>
+                  <a class="nav-link text-sm" href="{% url 'users:logout' %}"
+                               onclick="event.preventDefault(); document.getElementById('logout-form').submit();"> <i class="me-2 fas fa-door-open"></i><span>Выход</span></a>
+              </nav>
+            </div>
+          </div>
+        </div>
+
+{% endblock %}

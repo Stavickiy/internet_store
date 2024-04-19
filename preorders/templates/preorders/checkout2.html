@@ -1,0 +1,160 @@
+{% extends "base-2.html" %}
+{% block content %}
+<section class="py-1 bg-light">
+          <div class="container">
+            <div class="row px-4 px-lg-5 py-lg-4 align-items-center">
+              <div class="col-lg-6">
+                <h1 class="h2 text-uppercase mb-0">Оформление предзака</h1>
+              </div>
+              <div class="col-lg-6 text-lg-end">
+                <nav aria-label="breadcrumb">
+                  <ol class="breadcrumb justify-content-lg-end mb-0 px-0 bg-light">
+                    <li class="breadcrumb-item"><a class="text-dark" href="{% url 'home' %}">Главная</a></li>
+                    <li class="breadcrumb-item"><a class="text-dark" href="{% url 'preorders:preorder_cart_detail' %}">Корзина предзаказа</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Оформление предзаказа</li>
+                  </ol>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </section>
+<div class="container">
+        <!-- HERO SECTION-->
+        <section class="py-5">
+        <div class="container py-4">
+          <div class="row gy-5">
+            <div class="col-lg-8">
+              <!-- CHECKOUT NAVIGATION-->
+              <ul class="nav nav-pills flex-column flex-md-row nav-fill border-bottom border-primary">
+                <li class="nav-item"><a class="nav-link" aria-current="page" href="{% url 'preorders:preorder_checkout1' %}"> <i class="fas fa-truck"></i>
+                    <p class="mb-0 pt-1">Выбор способа доставки</p></a></li>
+                <li class="nav-item"><a class="nav-link active" href="#" tabindex="-1" aria-disabled="true"> <i class="fas fa-map-marker-alt"></i>
+                    <p class="mb-0 pt-1">Адрес/Данные</p></a></li>
+                <li class="nav-item"><a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"> <i class="far fa-money-bill-alt"></i>
+                    <p class="mb-0 pt-1">Способ оплаты</p></a></li>
+                <li class="nav-item"><a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"> <i class="far fa-eye"></i>
+                    <p class="mb-0 pt-1">Проверка предзаказа</p></a></li>
+              </ul>
+              <!-- DELIVERY METHOD FORM-->
+              <form class="py-4" method="post" action="{% url 'preorders:preorder_checkout3' %}">
+                {% csrf_token %}
+                {% if delivery_option == 'pickup' %}
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label" for="lastname">Фамилия*</label>
+                    <input class="form-control" id="lastname" type="text" name="lastname" required>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label" for="firstname">Имя*</label>
+                    <input class="form-control" id="firstname" type="text" name="firstname" required>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label" for="phone">E-mail*</label>
+                    <input class="form-control" id="email" type="email" name="email" required>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label" for="phone">Номер телефона*</label>
+                    <input class="form-control" id="phone" type="tel" name="phone" required>
+                  </div>
+                </div>
+                  <div class="row mb-4">
+                    <!-- Существующие поля -->
+                    <div class="col-12 mb-3">
+                        <label class="form-label" for="comment">Комментарий</label>
+                        <textarea class="form-control" id="comment1" name="comment" rows="3" placeholder="Добавьте комментарий к заказу"></textarea>
+                    </div>
+                </div>
+                {% else %}
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label" for="lastname">Фамилия*</label>
+                    <input class="form-control" id="lastname1" type="text" name="lastname" required>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label" for="firstname">Имя*</label>
+                    <input class="form-control" id="firstname1" type="text" name="firstname" required>
+                  </div>
+                </div>
+                <div class="row mb-4">
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label" for="middle_name">Отчество*</label>
+                    <input class="form-control" id="middle_name" type="text" name="middle_name" required>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label" for="phone">E-mail*</label>
+                    <input class="form-control" id="email1" type="email" name="email" required>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label" for="phone">Номер телефона*</label>
+                    <input class="form-control" id="phone1" type="tel" name="phone" required>
+                  </div>
+                  <div class="col-md-6 mb-3 col-lg-3">
+                    <label class="form-label" for="region">Область*</label>
+                    <input class="form-control" id="region" type="text" name="region" required>
+                  </div>
+                  <div class="col-md-6 mb-3 col-lg-3">
+                    <label class="form-label" for="city">Город*</label>
+                    <input class="form-control" id="city" type="text" name="city" required>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label" for="street">Улица (дом/квартира)*</label>
+                    <input class="form-control" id="street" type="text" name="street" required>
+                  </div>
+
+                  <div class="col-md-6 mb-3 col-lg-3">
+                    <label class="form-label" for="zip">Индекс*</label>
+                    <input class="form-control" id="zip" type="text" name="zip" required>
+                  </div>
+                </div>
+                  <div class="row mb-4">
+                    <!-- Существующие поля -->
+                    <div class="col-12 mb-3">
+                        <label class="form-label" for="comment">Комментарий</label>
+                        <textarea class="form-control" id="comment" name="comment" rows="3" placeholder="Добавьте комментарий к заказу"></textarea>
+                    </div>
+                </div>
+                {% endif %}
+                <!-- NAVIGATION FOOTER-->
+                <div class="align-items-center bg-light px-4 py-3 text-center mb-5">
+                  <div class="row">
+                    <div class="col-md-6 text-md-start py-1"><a class="btn btn-secondary my-1" href="{% url 'preorders:preorder_checkout1' %}"><i class="fas fa-angle-left me-1"></i>Вернуться к методу доставки</a></div>
+                    <div class="col-md-6 text-md-end py-1">
+                      <button class="btn btn-dark my-1" type="submit">К способу оплаты<i class="fas fa-angle-right ms-1"></i></button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <!-- CHECKOUT SIDEBAR [ORDER SUMMARY]-->
+            <div class="col-lg-4">
+            <div class="card border-0 rounded-0 p-lg-4 bg-light">
+                <div class="card-body">
+                    <h5 class="text-uppercase mb-4">Итого</h5>
+                    <ul class="list-unstyled mb-0">
+                        <li class="d-flex align-items-center justify-content-between"><strong
+                                class="text-muted small">Предварительная стоимость</strong><span
+                                class="text-muted small">{{ total_price_without_discount }}₽</span></li>
+                        <li class="border-bottom my-2"></li>
+                        <li class="d-flex align-items-center justify-content-between"><strong
+                                class="text-muted small">Скидки</strong>
+                            <span class="text-info">{% if code_name %}{{code_name}}{% endif %}</span>
+                            <span class="text-muted small">-{{ discount }}₽</span></li>
+                        {% if delivery_option == 'mail' %}
+                        <li class="border-bottom my-2"></li>
+                        <li class="d-flex align-items-center justify-content-between"><strong
+                                class="text-muted small">Доставка</strong>
+                            <span class="text-info">{% if code_name %}{{code_name}}{% endif %}</span>
+                            <span class="text-muted small">200₽</span></li>
+                        {% endif %}
+                        <li class="border-bottom my-2"></li>
+                        <li class="d-flex align-items-center justify-content-between mb-4"><strong
+                                class="text-uppercase small font-weight-bold">Сумма со скидкой</strong><span>{{ total_price }}₽</span></li>
+
+                    </ul>
+                </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      </div>
+{% endblock %}

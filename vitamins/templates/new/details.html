@@ -1,0 +1,208 @@
+{% extends 'base-2.html' %}
+{% block content %}
+<section class="py-1 bg-light">
+          <div class="container">
+            <div class="row px-4 px-lg-5 py-lg-4 align-items-center">
+              <div class="col-lg-6">
+                <h1 class="h2 text-uppercase mb-0">История заказов</h1>
+              </div>
+              <div class="col-lg-6 text-lg-end">
+                <nav aria-label="breadcrumb">
+                  <ol class="breadcrumb justify-content-lg-end mb-0 px-0 bg-light">
+                    <li class="breadcrumb-item"><a class="text-dark" href="{% url 'home' %}">Главная</a></li>
+                    <li class="breadcrumb-item"><a class="text-dark" href="{% url 'shop' %}">Магазин</a></li>
+                    <li class="breadcrumb-item"><a class="text-dark" href="{% url 'shop' %}?category={{ vitamin.cat.slug }}">{{ vitamin.cat.name }}</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{vitamin.title|truncatechars:30}}</li>
+                  </ol>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </section>
+<section class="py-5">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-lg-6">
+                <!-- PRODUCT SLIDER-->
+                <div class="row m-sm-0">
+                    <div class="col-sm-2 p-sm-0 order-2 order-sm-1 mt-2 mt-sm-0 px-xl-2">
+                        <div class="swiper product-slider-thumbs">
+                            <div class="swiper-wrapper">
+                                {% for image in vitamin.images.all %}
+                                <div class="swiper-slide h-auto swiper-thumb-item mb-3"><img class="w-100"
+                                                                                             src="{{image.image.url}}"
+                                                                                             alt="..."></div>
+                                {% endfor %}
+
+                            </div>
+                        </div>
+                    </div>
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}success{% endif %}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    <div class="col-sm-10 order-1 order-sm-2">
+                        <div class="swiper product-slider">
+                            <div class="swiper-wrapper">
+                                {% for image in vitamin.images.all %}
+                                <div class="swiper-slide h-auto"><a class="glightbox product-view"
+                                                                    href="{{image.image.url}}"
+                                                                    data-gallery="gallery2"
+                                                                    data-glightbox="Product item 1"><img
+                                        class="img-fluid" src="{{image.image.url}}" alt="..."></a></div>
+                                {% endfor %}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- PRODUCT DETAILS-->
+            <div class="col-lg-6">
+                <ul class="list-inline mb-2 text-sm">
+                    <li class="list-inline-item m-0"><i class="fas fa-star small text-warning"></i></li>
+                    <li class="list-inline-item m-0 1"><i class="fas fa-star small text-warning"></i></li>
+                    <li class="list-inline-item m-0 2"><i class="fas fa-star small text-warning"></i></li>
+                    <li class="list-inline-item m-0 3"><i class="fas fa-star small text-warning"></i></li>
+                    <li class="list-inline-item m-0 4"><i class="fas fa-star small text-warning"></i></li>
+                </ul>
+                <h5>{{vitamin.title}}</h5>
+                {% if vitamin.count %}
+                    <h6 class="text-success">В наличии</h6>
+                {% elif vitamin.ordered %}
+                    <h6 class="text-info">В пути</h6>
+                    <h6 class="text-success">Ожидается поступление после {{vitamin.arrival_date}}</h6>
+                {% else %}
+                    <h6 class="text-danger">Нет в наличии</h6>
+                {% endif %}
+                <span class="text small">Количество в упаковке: {{vitamin.packaging}}</span><br>
+
+                {% for analog in analogs %}
+                {% if analog.priority %}
+                <a class="{% if vitamin.count %}btn btn-outline-success{% else %}btn btn-outline-secondary{% endif %}"
+                   style="border-width: 3px; {% if not vitamin.count %}text-decoration: line-through;{% endif %}"
+                   href="{{ vitamin.get_absolute_url }}">
+                    <span class="text small">{{ vitamin.packaging }}{{ vitamin.unit }}</span><br>
+                    {% if vitamin.count %}
+                    {% if vitamin.discount %}
+                    <strong class="text-danger">{{ vitamin.sale_price }}₽</strong>
+                    <s class="text-dark small">{{ vitamin.final_price }}₽</s>
+                    {% else %}
+                    <span class="text-dark">{{ vitamin.final_price }}₽</span>
+                    {% endif %}
+                    {% else %}
+                    <span>{{ vitamin.final_price }}₽</span>
+                    {% endif %}
+                </a>
+                {% else %}
+                <a class="btn btn-outline-secondary"
+                   style="border-width: 1px; {% if analog.vitamin.count %} border-color: #000000; color: #000000 {% else %} text-decoration: line-through; {% endif %};"
+                   href="{{ analog.vitamin.get_absolute_url }}">
+                    <span class="text small">{{ analog.vitamin.packaging }}{{ analog.vitamin.unit }}</span><br>
+                    {% if analog.vitamin.count %}
+                    {% if analog.vitamin.discount %}
+                    <strong class="text-danger">{{ analog.vitamin.sale_price }}₽</strong>
+                    <s class="text-dark small">{{ analog.vitamin.final_price }}₽</s>
+                    {% else %}
+                    <span>{{ analog.vitamin.final_price }}₽</span>
+                    {% endif %}
+                    {% else %}
+                    <span>{{ analog.vitamin.final_price }}₽</span>
+                    {% endif %}
+                </a>
+                {% endif %}
+                {% endfor %}
+                <p class="text-sm mb-4">{{ vitamin.short_content|linebreaks }}</p>
+                <div class="row align-items-stretch mb-4">
+
+                    {% if vitamin.count %}
+                    <div class="col-sm-3 pl-sm-0"><a
+                            class="btn btn-dark btn-sm btn-block h-100 d-flex align-items-center justify-content-center px-0"
+                            href="{% url 'cart:add_to_cart' vitamin.pk %}">В корзину</a></div>
+                    </div>
+                    {% else %}
+                    <div class="col-sm-3 pl-sm-0"><a
+                            class="btn btn-info btn-sm btn-block h-100 d-flex align-items-center justify-content-center px-0"
+                            href="{% url 'preorders:add_to_preorder_cart' vitamin.pk %}">В предзаказ</a></div>
+                    </div>
+                    {% endif %}
+                <ul class="list-unstyled small d-inline-block">
+                    <li class="px-3 py-2 mb-1 bg-white"><strong class="text-uppercase">Код продукта:</strong><span
+                            class="ms-2 text-muted">039</span></li>
+                    <li class="px-3 py-2 mb-1 bg-white text-muted"><strong
+                            class="text-uppercase text-dark">Бренд:</strong>
+                        <a class="btn btn-outline-dark btn-sm" href="{% url 'shop' %}?brand={{ vitamin.brand.slug }}">{{ vitamin.brand }}</a></li>
+                    <li class="px-3 py-2 mb-1 bg-white text-muted"><strong
+                            class="text-uppercase text-dark">Категория:</strong>
+                        <a class="btn btn-outline-dark btn-sm" href="{% url 'shop' %}?category={{ vitamin.cat.slug }}">{{vitamin.cat}}</a>
+                    </li>
+                    <li class="px-3 py-2 mb-1 bg-white text-muted"><strong
+                            class="text-uppercase text-dark">Tags:</strong>
+                        {% for tag in vitamin.tags.all %}
+                        <a class="btn btn-outline-dark btn-sm" href="{% url 'shop' %}?tag={{ tag.slug }}">{{tag}}</a>
+                        {% endfor %}
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- DETAILS TABS-->
+        <ul class="nav nav-tabs border-0" id="myTab" role="tablist">
+            <li class="nav-item"><a class="nav-link text-uppercase active" id="description-tab" data-bs-toggle="tab"
+                                    href="#description" role="tab" aria-controls="description" aria-selected="true">Description</a>
+            </li>
+
+        </ul>
+        <div class="tab-content mb-5" id="myTabContent">
+            <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
+                <div class="p-4 p-lg-5 bg-white" style="padding-right: 0 !important; padding-left: 0 !important;">
+                    <h6 class="text-uppercase">Product description </h6>
+                    <p class="text-muted text-sm mb-0">{{vitamin.content|linebreaks}}</p>
+                </div>
+            </div>
+
+            </div>
+        </div>
+        <!-- RELATED PRODUCTS-->
+        <h2 class="h5 text-uppercase text-center mb-4">Related products</h2>
+        <div class="row">
+            <!-- PRODUCT-->
+
+            {% for v in vitamins_cat %}
+            <div class="col-lg-3 col-sm-6">
+                <div class="product text-center skel-loader">
+                    <div class="d-block mb-3 position-relative"><a class="d-block" href="{{ v.get_absolute_url }}">
+                        {% if v.discount %}
+                        <div class="badge text-white bg-primary">Скидка {{v.discount}}%</div>
+                        {% endif %}
+                        <br>
+                        <img class="img-fluid w-100" src="{{v.main_image.0.image.url}}" alt="..."></a>
+                        <div class="product-overlay">
+                            <ul class="mb-0 list-inline">
+
+                                <li class="list-inline-item m-0 p-0">
+                                    <a class="btn btn-sm btn-dark" href="{% url 'cart:add_to_cart' v.pk %}">В корзину</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <h6><a class="reset-anchor" href="{{ v.get_absolute_url }}">{{v.title|truncatechars:30}}</a></h6>
+                    <p class="mb-0">
+                        {% if v.discount %}
+                        <del class="text-gray-500 me-2">
+                            {{ v.final_price }}₽
+                        </del>
+                        {{ v.sale_price }}₽
+                        {% else %}
+                        {{ v.final_price }}₽
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'base-2.html' %}
+
+{% block content %}
+<section class="py-5">
+        <div class="container py-4">
+          <p class="text-muted lead mb-5">Наши контакты и социальные сети.</p>
+          <div class="row">
+            <div class="col-lg-8">
+              <div id="map" class="w-100" style="width: 800px; height: 400px;"></div>
+            </div>
+            <!-- CHECKOUT SIDEBAR [ORDER SUMMARY]-->
+            <div class="col-lg-4">
+              <h3 class="text-uppercase mb-3">Адрес</h3>
+              <p class="text-sm mb-4">улица Артёма<br>51А<br>Донецк<br>офисный центр<strong>"Грин Плаза"</strong></p>
+              <h3 class="text-uppercase mb-3">Наши социальные сети</h3>
+                <ul class="list-unstyled mb-0">
+                    <li><a class="footer-link" href="https://t.me/herbdonbass">Telegram</a></li>
+                    <li><a class="footer-link" href="https://www.instagram.com/herb.donbass/">Instagram</a></li>
+                    <li><a class="footer-link" href="https://www.vk.com/public210895682">Вконтакте</a></li>
+                </ul>
+              <h3 class="text-uppercase mb-3">Служба поддержки</h3>
+              <p class="text-gray-600 text-sm">Напишите нам письмо на электронную почту ниже.</p>
+              <ul class="text-sm mb-0">
+                <li><strong><a href="mailto:">support@herbdonbass.ru</a></strong></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+
+<script src="https://api-maps.yandex.ru/2.1/?apikey=1f7842b9-379c-4c14-9ab3-ddc57ed0122b&lang=ru_RU" type="text/javascript"></script>
+<script>
+    ymaps.ready(init);
+
+    function init() {
+        var myMap = new ymaps.Map('map', {
+            center: [47.992499, 37.805123], // координаты центра карты (широта, долгота)
+            zoom: 10 // масштаб карты
+        });
+
+        // Создаем маркер с вашим адресом
+        var myPlacemark = new ymaps.Placemark([47.992499, 37.805123], {
+            hintContent: 'магазин "iHerbDonbass"', // текст, отображаемый при наведении на маркер
+            balloonContent: 'магазин "iHerbDonbass"' // текст, отображаемый при клике на маркер
+        });
+
+        // Добавляем маркер на карту
+        myMap.geoObjects.add(myPlacemark);
+    }
+</script>
+{% endblock %}

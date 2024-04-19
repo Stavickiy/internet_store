@@ -1,0 +1,166 @@
+{% extends 'base-2.html' %}
+
+{% block content %}
+{% load cache %}
+       <section class="py-5 bg-light">
+          <div class="container">
+            <div class="row px-4 px-lg-5 py-lg-4 align-items-center">
+              <div class="col-lg-6">
+              </div>
+              <div class="col-lg-6 text-lg-end">
+                <nav aria-label="breadcrumb">
+                  <ol class="breadcrumb justify-content-lg-end mb-0 px-0 bg-light">
+                    <li class="breadcrumb-item"><a class="text-dark" href="{% url 'home' %}">Главная</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Магазин</li>
+                  </ol>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </section>
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <!-- SHOP SIDEBAR-->
+<!--            {% cache 10 cat %}-->
+            <div class="col-lg-3 order-1 order-lg-1">
+                <h5 class="text-uppercase mb-4">Категории</h5>
+                <div class="accordion-item mb-2">
+                    <h6 class="accordion-header" id="accordion2-headingOne">
+                      <button class="accordion-button text-uppercase fw-bold collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accordion2-collapseOne" aria-expanded="false" aria-controls="accordion2-collapseOne">Бренды</button>
+                    </h6>
+                    <div class="accordion-collapse collapse" id="accordion2-collapseOne" aria-labelledby="accordion2-collapseOne" data-bs-parent="#accordion2" style="">
+                        <br>
+                        <ul class="list-unstyled small text-muted ps-lg-4 font-weight-normal">
+                            {% for brand in brands %}
+                            <li class="mb-2"><a class="reset-anchor list-link" href="{% url 'shop' %}?brand={{ brand.slug }}">{{ brand.name }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="accordion-item mb-2">
+                    <h6 class="accordion-header" id="accordion3-headingOne">
+                      <button class="accordion-button text-uppercase fw-bold collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accordion3-collapseOne" aria-expanded="false" aria-controls="accordion2-collapseOne">По видам</button>
+                    </h6>
+                    <div class="accordion-collapse collapse" id="accordion3-collapseOne" aria-labelledby="accordion3-collapseOne" data-bs-parent="#accordion2" style="">
+                        <br>
+                        <ul class="list-unstyled small text-muted ps-lg-4 font-weight-normal">
+                            {% for cat in cats %}
+                                <li class="mb-2"><a class="reset-anchor list-link" href="{% url 'shop' %}?category={{ cat.slug }}">{{ cat.name }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="accordion-item mb-2">
+                    <h6 class="accordion-header" id="accordion4-headingOne">
+                      <button class="accordion-button text-uppercase fw-bold collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accordion4-collapseOne" aria-expanded="false" aria-controls="accordion2-collapseOne">Область применения</button>
+                    </h6>
+                    <div class="accordion-collapse collapse" id="accordion4-collapseOne" aria-labelledby="accordion4-collapseOne" data-bs-parent="#accordion2" style="">
+                        <br>
+                        <ul class="list-unstyled small text-muted ps-lg-4 font-weight-normal">
+                            {% for tag in tags %}
+                                <li class="mb-2"><a class="reset-anchor list-link" href="{% url 'shop' %}?tag={{ tag.slug }}">{{ tag.name }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+<!--            {% endcache %}-->
+            <!-- SHOP LISTING-->
+            <div class="col-lg-9 order-2 order-lg-2 mb-5 mb-lg-0">
+                <div class="row">
+                    <form class="d-flex" role="search" method="get" action="{% url 'search' %}">
+                        <input class="form-control me-2" type="search" placeholder="Введите наименование" aria-label="Search"
+                           name="query">
+                        <button class="btn btn-light" type="submit">Поиск</button>
+                    </form>
+                    {% if brand %}
+                    <img src="{{ brand.image.url }}">
+                    {% endif %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}success{% endif %}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    <!-- PRODUCT-->
+                    {% for v in vitamins %}
+                <div class="col-lg-4 col-sm-6">
+                    <div class="product text-center">
+                        <div class="position-relative mb-3">
+                            {% if v.discount %}
+                            <div class="badge text-white bg-primary">Скидка {{v.discount}}%</div>
+                            {% endif %}
+                            <br>
+                            <a class="d-block" href="{{ v.get_absolute_url }}">
+                                <img class="img-fluid w-100" style="{% if not v.count and not v.ordered %}filter: grayscale(100%);{% endif %}" src="{{ v.main_images.0.image.url}}" alt="...">
+                            </a>
+                            <div class="product-overlay">
+                                <ul class="mb-0 list-inline">
+                                    {% if v.count %}
+                                    <li class="list-inline-item m-0 p-0"><a class="btn btn-sm btn-dark"
+                                                                            href="{% if v.count %}{% url 'cart:add_to_cart' v.pk %}{% else %}#{% endif %}">В корзину</a></li>
+                                    {% else %}
+                                    <li class="list-inline-item m-0 p-0"><a class="btn btn-sm btn-info"
+                                                                            href="{% url 'preorders:add_to_preorder_cart' v.pk %}">В предзаказ</a></li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </div>
+                        <h6><a class="reset-anchor" href="{{ v.get_absolute_url }}">{{v.title|truncatechars:30}}</a></h6>
+                        <p class="mb-0">
+                            {% if v.count %}
+                                {% if v.discount %}
+                                <del class="text-gray-500 me-2">
+                                    {{ v.final_price }}₽
+                                </del>
+                                {{ v.sale_price }}₽
+                                {% else %}
+                                {{ v.final_price }}₽
+                                {% endif %}
+                            {% elif v.ordered %}
+                            <h6 class="text-info">В пути</h6>
+                            {% else %}
+                            <h6 class="text-info">Предзаказ</h6>
+                            {% endif %}
+                        </p>
+                    </div>
+                    <hr>
+                </div>
+                {% endfor %}
+
+                </div>
+                <!-- PAGINATION-->
+                {% if page_obj.has_other_pages %}
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center justify-content-lg-end">
+
+                        {% if page_obj.has_previous %}
+                        <li class="page-item mx-1"><a class="page-link" href="?page={{ page_obj.previous_page_number }}&brand={{ current_filters.brand }}&category={{ current_filters.category }}&tag={{ current_filters.tag }}&discount={{ current_filters.discount }}&query={{ current_filters.query }}" aria-label="Previous"><span
+                                aria-hidden="true">«</span></a></li>
+                        {% endif %}
+
+                        {% for p in paginator.page_range %}
+                        {% if page_obj.number == p %}
+                            <li class="page-item mx-1 active"><a class="page-link" href="#">{{ p }}</a></li>
+                        {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2 %}
+                            <li class="page-item mx-1"><a class="page-link" href="?page={{ p }}&brand={{ current_filters.brand }}&category={{ current_filters.category }}&tag={{ current_filters.tag }}&discount={{ current_filters.discount }}&query={{ current_filters.query }}">{{ p }}</a></li>
+                        {% endif %}
+                        {% endfor %}
+
+                        {% if page_obj.has_next %}
+                        <li class="page-item ms-1"><a class="page-link" href="?page={{ page_obj.next_page_number }}&brand={{ current_filters.brand }}&category={{ current_filters.category }}&tag={{ current_filters.tag }}&discount={{ current_filters.discount }}&query={{ current_filters.query }}" aria-label="Next"><span
+                                aria-hidden="true">»</span></a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,103 @@
+{% extends "base-2.html" %}
+{% block content %}
+<section class="py-1 bg-light">
+          <div class="container">
+            <div class="row px-4 px-lg-5 py-lg-4 align-items-center">
+              <div class="col-lg-6">
+                <h1 class="h2 text-uppercase mb-0">Оформление заказа</h1>
+              </div>
+              <div class="col-lg-6 text-lg-end">
+                <nav aria-label="breadcrumb">
+                  <ol class="breadcrumb justify-content-lg-end mb-0 px-0 bg-light">
+                    <li class="breadcrumb-item"><a class="text-dark" href="{% url 'home' %}">Главная</a></li>
+                    <li class="breadcrumb-item"><a class="text-dark" href="{% url 'cart:cart_detail' %}">Корзина</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Оформление заказа</li>
+                  </ol>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </section>
+<div class="container">
+        <!-- HERO SECTION-->
+        <section class="py-5">
+        <div class="container py-4">
+          <div class="row gy-5">
+            <div class="col-lg-8">
+              <!-- CHECKOUT NAVIGATION-->
+              <ul class="nav nav-pills flex-column flex-md-row nav-fill border-bottom border-primary">
+                <li class="nav-item"><a class="nav-link" aria-current="page" href="{% url 'cart:checkout1' %}"> <i class="fas fa-truck"></i>
+                    <p class="mb-0 pt-1">Выбор способа доставки</p></a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'cart:checkout2' %}" tabindex="-1" aria-disabled="true"> <i class="fas fa-map-marker-alt"></i>
+                    <p class="mb-0 pt-1">Адрес/Данные</p></a></li>
+                <li class="nav-item"><a class="nav-link active" href="#" tabindex="-1" aria-disabled="true"> <i class="far fa-money-bill-alt"></i>
+                    <p class="mb-0 pt-1">Способ оплаты</p></a></li>
+                <li class="nav-item"><a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"> <i class="far fa-eye"></i>
+                    <p class="mb-0 pt-1">Order Review</p></a></li>
+              </ul>
+              <!-- DELIVERY METHOD FORM-->
+              <form class="py-4" method="post" action="{% url 'cart:checkout4' %}">
+                {% csrf_token %}
+                <div class="row mb-4 gy-4">
+                  <div class="col-md-6">
+                    <div class="bg-light p-4 p-xl-5">
+                      <div class="form-check">
+                        <input class="form-check-input flex-shrink-0" id="payment2" type="radio" name="payment" value="by_card" required>
+                        <label class="cursor-pointer d-block ms-3" for="payment2"><span class="h4 d-block mb-1 text-uppercase">Банковской картой (предоплата)</span><span class="text-sm d-block mb-0 text-muted">СБЕР, Тинькоф, ПСБ или другие.</span></label>
+                      </div>
+                    </div>
+                  </div>
+                  {% if delivery_option == 'pickup' %}
+                  <div class="col-md-6">
+                    <div class="bg-light p-4 p-xl-5">
+                      <div class="form-check d-flex align-items-center">
+                        <input class="form-check-input flex-shrink-0" id="payment1" type="radio" name="payment" value="cash" required>
+                        <label class="cursor-pointer d-block ms-3" for="payment1"><span class="h4 d-block mb-1 text-uppercase">Наличными</span><span class="text-sm d-block mb-0 text-muted">При получении в ТЦ Гринплаза.</span></label>
+                      </div>
+                    </div>
+                  </div>
+                  {% endif %}
+                </div>
+                <!-- NAVIGATION FOOTER-->
+                <div class="align-items-center bg-light px-4 py-3 text-center mb-5">
+                  <div class="row">
+                    <div class="col-md-6 text-md-start py-1"><a class="btn btn-secondary my-1" href="{% url 'cart:checkout2' %}"><i class="fas fa-angle-left me-1"></i>Вернуться к внесению данных</a></div>
+                    <div class="col-md-6 text-md-end py-1">
+                      <button class="btn btn-dark my-1" type="submit">К оформлению заказа<i class="fas fa-angle-right ms-1"></i></button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <!-- CHECKOUT SIDEBAR [ORDER SUMMARY]-->
+            <div class="col-lg-4">
+            <div class="card border-0 rounded-0 p-lg-4 bg-light">
+                <div class="card-body">
+                    <h5 class="text-uppercase mb-4">Итого</h5>
+                    <ul class="list-unstyled mb-0">
+                        <li class="d-flex align-items-center justify-content-between"><strong
+                                class="text-muted small">Предварительная стоимость</strong><span
+                                class="text-muted small">{{ total_price_without_discount }}₽</span></li>
+                        <li class="border-bottom my-2"></li>
+                        <li class="d-flex align-items-center justify-content-between"><strong
+                                class="text-muted small">Скидки</strong>
+                            <span class="text-info">{% if code_name %}{{code_name}}{% endif %}</span>
+                            <span class="text-muted small">-{{ discount }}₽</span></li>
+                        {% if delivery_option == 'mail' %}
+                        <li class="border-bottom my-2"></li>
+                        <li class="d-flex align-items-center justify-content-between"><strong
+                                class="text-muted small">Доставка</strong>
+                            <span class="text-muted small">200₽</span></li>
+                        {% endif %}
+                        <li class="border-bottom my-2"></li>
+                        <li class="d-flex align-items-center justify-content-between mb-4"><strong
+                                class="text-uppercase small font-weight-bold">Сумма со скидкой</strong><span>{{ total_price }}₽</span></li>
+
+                    </ul>
+                </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      </div>
+{% endblock %}

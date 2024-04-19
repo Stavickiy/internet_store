@@ -1,0 +1,140 @@
+{% extends 'base-2.html' %}
+ 
+{% block content %}
+<!-- The Modal -->
+<div class="modal fade" id="cancelOrderModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabel">Подтверждение</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Вы точно хотите отменить заказ?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Нет</button>
+        <a href="{% url 'preorders:canceling_preorder' order.id %}" class="btn btn-danger">Да</a>
+      </div>
+    </div>
+  </div>
+</div>
+<section class="py-1 bg-light">
+          <div class="container">
+            <div class="row px-4 px-lg-5 py-lg-4 align-items-center">
+              <div class="col-lg-6">
+                <h1 class="h2 text-uppercase mb-0">Детали предзаказа</h1>
+              </div>
+              <div class="col-lg-6 text-lg-end">
+                <nav aria-label="breadcrumb">
+                  <ol class="breadcrumb justify-content-lg-end mb-0 px-0 bg-light">
+                    <li class="breadcrumb-item"><a class="text-dark" href="{% url 'home' %}">Главная</a></li>
+                    <li class="breadcrumb-item"><a class="text-dark" href="{% url 'users:profile' %}">Мой профиль</a></li>
+                    <li class="breadcrumb-item"><a class="text-dark" href="{% url 'preorders:preorders_history' %}">История предзаказов</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Детали предзаказа</li>
+                  </ol>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </section>
+<div class="container py-4">
+          <div class="row gy-5">
+            <div class="col-lg-9 order-2 order-lg-1">
+                {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}success{% endif %}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                <p class="lead mb-4 text-sm">Заказ №<strong>{{ order.id }}</strong> <br>
+                    Был создан: <strong>{{ order.created_at }}</strong> <br>
+                    Статус: <strong class="{% if order.status == 'canceled' %} text-danger {% endif %}">{{order.get_status_display}}</strong> <br>
+                    Способ оплаты: <strong>{{order.get_type_payment_display}}</strong><br>
+                    Статус оплаты: <strong>{{order.get_payment_status_display}}</strong>
+                    {% if order.get_payment_status_display == 'Не оплачен' and not order.get_status_display == 'Отменен' %}<strong class="text-info">Что-бы мы заказали ваш предзаказ, нужно оплатить его по реквизитам которые мы вам пришлем!</strong>{% endif %}<br>
+                    Способ доставки: <strong>{{order.get_type_delivery_display}}</strong></p>
+              <!-- ORDER TABLE-->
+              <div class="table-responsive">
+                <table class="table text-nowrap">
+                  <thead>
+                    <tr class="text-sm">
+                      <th class="border-gray-300 border-top py-3" colspan="2">Продукт</th>
+                      <th class="border-gray-300 border-top py-3">Количество</th>
+                      <th class="border-gray-300 border-top py-3">Цена</th>
+                      <th class="border-gray-300 border-top py-3">Скидка</th>
+                      <th class="border-gray-300 border-top py-3">Сумма</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for item in order_items %}
+                    <tr class="text-sm" style="{% if order.status == 'canceled' %}filter: grayscale(100%);{% endif %}">
+                      <td class="align-middle border-gray-300 py-3"><a href="{{ item.product.get_absolute_url }}"><img class="img-fluid flex-shrink-0" src="{{ item.product.images.all.first.image.url }}" alt="{{ item.product.title }}" style="min-width: 50px;" width="50"></a></td>
+                      <td class="align-middle border-gray-300 py-3"><a href="{{ item.product.get_absolute_url }}">{{ item.product.title|truncatechars:25 }}</a></td>
+                      <td class="align-middle border-gray-300 py-3">{{ item.quantity }}</td>
+                      <td class="align-middle border-gray-300 py-3">{{ item.price }}</td>
+                      <td class="align-middle border-gray-300 py-3">{{ item.discount }}%</td>
+                      <td class="align-middle border-gray-300 py-3">{{ item.sum }}</td>
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <th class="text-start text-sm lead py-3" colspan="5">Предварительная стоимость:</th>
+                      <th class="lead text-sm py-3">{{ order.without_discount }}₽</th>
+                    </tr>
+                    <tr>
+                      <th class="text-start text-sm lead py-3" colspan="5">Скидка:</th>
+                      <th class="lead text-sm py-3">-{{ order.discount_sum }}₽</th>
+                    </tr>
+                    {% if order.type_delivery == 'mail' %}
+                    <tr>
+                      <th class="text-start text-sm lead py-3" colspan="5">Доставка:</th>
+                      <th class="lead py-3 text-sm">200₽</th>
+                    </tr>
+                    {% endif %}
+                    <tr>
+                        <th class="border-0 text-start text-sm lead py-3" colspan="5"><strong>Сумма со скидкой:</strong></th>
+                      <th class="border-0 lead py-3 text-sm">{{ order.total_price }}₽</th>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+              <!-- INVOICE ADDRESS        -->
+              <div class="row gy-4 pb-4 border-bottom border-gray-300">
+                <div class="col-md-6 text-start">
+                  <h3 class="text-uppercase text-sm">Получатель:</h3>
+                  <p class="lead text-sm">{{ order.shipping_address }}</p>
+                    {% if not order.status == 'canceled' and not order.status == 'shipped' and order.payment_status == 'unpaid' and not order.status == 'executed' and not order.status == 'ordering' %}
+                  <div class="text-start mt-4">
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#cancelOrderModal">
+                      Отменить заказ
+                    </button>
+                  </div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+              <div class="col-lg-3 order-1 order-lg-2">
+              <h3 class="h4 text-uppercase lined mb-4">Ваш профиль</h3>
+              <nav class="nav flex-column nav-pills">
+                  <a class="nav-link text-sm" href="{% url 'users:profile' %}"> <i class="me-2 fas fa-user"></i><span>Мой профиль</span></a>
+                  {% if not perms.users.social_auth %}
+                  <a class="nav-link text-sm" href="{% url 'users:password_change' %}"> <i class="me-2 fas fa-pen"></i><span>Смена пароля</span></a>
+                  {% endif %}
+                  <a class="nav-link text-sm" href="{% url 'orders:orders_history' %}"> <i class="me-2 fas fa-list"></i><span>История заказов</span></a>
+                  <a class="nav-link text-sm active" href="{% url 'preorders:preorders_history' %}"> <i class="me-2 fas fa-heart"></i><span>История предзаказов</span></a>
+                  <form id="logout-form" action="{% url 'users:logout' %}" method="post" style="display: none;">
+                            {% csrf_token %}
+                            </form>
+                  <a class="nav-link text-sm" href="{% url 'users:logout' %}"
+                               onclick="event.preventDefault(); document.getElementById('logout-form').submit();"> <i class="me-2 fas fa-door-open"></i><span>Выход</span></a>
+
+              </nav>
+            </div>
+            </div>
+          </div>
+        </div>
+
+{% endblock %}

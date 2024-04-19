@@ -1,0 +1,57 @@
+{% extends 'base-2.html' %}
+{% block content %}
+<div class="container h-100">
+    <div class="row h-100 justify-content-center align-items-center">
+        <div class="col-12 col-md-8 col-lg-6">
+            <!-- The form begins here -->
+            <form method="post" class="text-center">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}success{% endif %}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                <img src="https://img.freepik.com/free-vector/two-factor-authentication-concept-illustration_114360-5280.jpg?w=1060&t=st=1708528935~exp=1708529535~hmac=ed18936ad7898ec9142cc158e2cca393a63b681b8d7a91f7bc1b64367fc16c65"
+                     class="img-fluid mb-4" style="max-width: 200px;">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ next }}" />
+                <!-- Display the form fields here -->
+                <div class="text-danger">{{ form.non_field_errors }}</div>
+
+                {% for f in form %}
+                <p><label class="form-label" for="{{ f.id_for_label }}">{{f.label}}</label>{{ f }}</p>
+                <div class="text-danger">{{ f.errors }}</div>
+                {% endfor %}
+                <button class="btn btn-outline-dark" type="submit"><i class="fas fa-door-open me-2"></i>Войти</button>
+                <div class="form-text center" id="emailHelp">Если вы еще не зарегестрированы, сделайте это:
+                    <a class='active' href="{% url 'users:register' %}"><strong>Регистрация</strong></a>
+                </div>
+                <p ><a href="{% url 'users:password_reset' %}">Забыли пароль?</a></p>
+            </form>
+
+            <div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title text-center mb-4">Вход через социальные сети</h5>
+                <!-- VK -->
+                <a href="{% url 'social:begin' 'vk-oauth2' %}" class="btn btn-block mb-2" style="background-color: #4c75a3;">
+                    <i class="fab fa-vk me-2"></i> Вход через VK
+                </a>
+                <!-- Одноклассники -->
+                <a href="{% url 'social:begin' 'odnoklassniki-oauth2' %}" class="btn btn-block mb-2" style="background-color: #ed812b;">
+                    <i class="fab fa-odnoklassniki me-2"></i> Вход через Одноклассники
+                </a>
+                <!-- Google -->
+                <a href="{% url 'social:begin' 'google-oauth2' %}" class="btn btn-block mb-2" style="background-color: #dd4b39;">
+                    <i class="fab fa-google me-2"></i> Вход через Google
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+        </div>
+    </div>
+</div>
+{% endblock %}

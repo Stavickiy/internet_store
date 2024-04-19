@@ -1,0 +1,26 @@
+{% extends 'base-2.html' %}
+{% block content %}
+<div class="container h-100">
+    <div class="row h-100 justify-content-center align-items-center">
+        <div class="col-12 col-md-8 col-lg-6">
+            <!-- The form begins here -->
+            <div class="text-center">
+                <img src="https://img.freepik.com/free-vector/two-factor-authentication-concept-illustration_114360-5280.jpg?w=1060&t=st=1708528935~exp=1708529535~hmac=ed18936ad7898ec9142cc158e2cca393a63b681b8d7a91f7bc1b64367fc16c65"
+                     class="img-fluid mb-4" style="max-width: 200px;">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}success{% endif %}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                <a href="{% url 'users:login' %}">
+                    <button class="btn btn-outline-primary" type="submit"><i class="fas fa-door-open me-2"></i>Войти</button>
+                </a>
+            </div>
+
+            <!-- The form ends here -->
+        </div>
+    </div>
+</div>
+{% endblock %}

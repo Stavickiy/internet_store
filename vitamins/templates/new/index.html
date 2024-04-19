@@ -1,0 +1,100 @@
+{% extends 'base-2.html' %}
+
+{% block content %}
+{% load cache %}
+
+<!-- HERO SECTION-->
+<div class="container">
+    {% cache 500 index %}
+    <section class="hero pb-3 bg-cover bg-center d-flex align-items-center"
+             style="background: url(media/img/fon.jpg)">
+        <div class="container py-5">
+        </div>
+    </section>
+    <!-- CATEGORIES SECTION-->
+    <section class="pt-5">
+        <header class="text-center">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}success{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            <h1 class="small text-muted small text-uppercase mb-1">Только оригинальные витамины и биодобавки с iHerb США</h1>
+            <h2 class="h5 text-uppercase mb-4">Категории</h2>
+        </header>
+        <div class="row">
+            <div class="col-md-4"><a class="category-item" href="{% url 'shop' %}?category=vitamin-d3"><img
+                    class="img-fluid"
+                    src="media/img/cat-d3.png" alt=""/><strong
+                    class="category-item-title">Витамин Д3</strong></a>
+            </div>
+            <div class="col-md-4"><a class="category-item mb-4" href="{% url 'shop' %}?category=omega-3"><img
+                    class="img-fluid"
+                    src="media/img/omega3.png"
+                    alt=""/><strong
+                    class="category-item-title text-center">Омега-3</strong></a><a class="category-item"
+                                                                       href="{% url 'shop' %}?category=magnesium"><img
+                    class="img-fluid" src="media/img/magnesium.jpeg" alt=""/>
+                <strong class="category-item-title text-center">Магний</strong></a>
+            </div>
+            <div class="col-md-4"><a class="category-item" href="{% url 'shop' %}"><img class="img-fluid"
+                                                                                        src="media/img/cat-all.jpg"
+                                                                                        alt=""/><strong
+                    class="category-item-title text-center">Все категории</strong></a>
+            </div>
+        </div>
+    </section>
+    {% endcache %}
+    <!-- TRENDING PRODUCTS-->
+    <section class="py-5">
+        <header>
+            <h2 class="h5 text-uppercase mb-4">Бестселлеры продаж</h2>
+        </header>
+        <div class="row">
+            <!-- PRODUCT-->
+            {% for v in vitamins %}
+            <div class="col-xl-3 col-lg-4 col-sm-6">
+                <div class="product text-center">
+                    <div class="position-relative mb-3">
+                        {% if v.discount %}
+                        <div class="badge text-white bg-primary">sale {{v.discount}}%</div>
+                        {% endif %}
+                        <br>
+                        <a class="d-block" href="{{ v.get_absolute_url }}">
+                            <img class="img-fluid w-100" src="{{v.main_image.0.image.url}}" alt="...">
+                        </a>
+                        <div class="product-overlay">
+                            <ul class="mb-0 list-inline">
+<
+                                {% if v.count %}
+                                <li class="list-inline-item m-0 p-0"><a class="btn btn-sm btn-dark"
+                                                                        href="{% if v.count %}{% url 'cart:add_to_cart' v.pk %}{% else %}#{% endif %}">В корзину</a></li>
+                                {% else %}
+                                <li class="list-inline-item m-0 p-0"><a class="btn btn-sm btn-info"
+                                                                        href="{% url 'preorders:add_to_preorder_cart' v.pk %}">В предзаказ</a></li>
+                                {% endif %}
+<!
+                            </ul>
+                        </div>
+                    </div>
+                    <h6><a class="reset-anchor" href="{{ v.get_absolute_url }}">{{v.title|truncatechars:30}}</a></h6>
+                    <p class="mb-0">
+                        {% if v.discount %}
+                        <del class="text-gray-500 me-2">
+                            {{ v.final_price }}₽
+                        </del>
+                        {{ v.sale_price }}₽
+                        {% else %}
+                        {{ v.final_price }}₽
+                        {% endif %}
+                    </p>
+                </div>
+                <hr>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+{% endblock %}
