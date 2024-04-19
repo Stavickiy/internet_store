@@ -1,4 +1,4 @@
-djvenv/
+../djvenv/
 media/
 cert.crt
 cert.key
