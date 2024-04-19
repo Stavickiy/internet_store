@@ -1,0 +1,12 @@
+../djvenv/
+media/
+cert.crt
+cert.key
+debug.log
+dump.rdb
+vitamins.sql
+migrations/
+__pycache__/
+*.py[cod]
+*$py.class
+.env
