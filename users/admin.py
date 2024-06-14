@@ -17,6 +17,5 @@ class UserAdmin(BaseUserAdmin):
         ('Additional Info', {'fields': ('phone_number',)}),
     )
 
-# Замените 'custom_field' на имя вашего дополнительного поля
-# Не забудьте зарегистрировать модель User с новым классом UserAdmin
+
 admin.site.register(User, UserAdmin)
