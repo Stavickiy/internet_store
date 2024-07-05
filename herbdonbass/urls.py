@@ -18,7 +18,8 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 
-from vitamins.sitemaps import VitaminSitemap, BrandFilterSitemap, CategoryFilterSitemap, HomePageSitemap, ContactPageSitemap
+from vitamins.sitemaps import VitaminSitemap, BrandFilterSitemap, CategoryFilterSitemap, HomePageSitemap, \
+    ContactPageSitemap
 from vitamins.views import custom_page_not_found_view
 
 from django.contrib.sitemaps.views import sitemap
@@ -37,6 +38,7 @@ urlpatterns = [
     path("__debug__/", include("debug_toolbar.urls")),
     path('captcha/', include('captcha.urls')),
     path('admin/', admin.site.urls),
+    path('api/', include('api.urls', namespace='api')),
     path('cart/', include('cart.urls', namespace='cart')),
     path('users/', include('users.urls', namespace='users')),
     path('preorders/', include('preorders.urls', namespace='preorders')),
@@ -55,8 +57,10 @@ if settings.DEBUG:
         path('cart/', include('cart.urls', namespace='cart')),
         path('preorders/', include('preorders.urls', namespace='preorders')),
         path('admin/', admin.site.urls),
+        path('api/', include('api.urls', namespace='api')),
         path('orders/', include('orders.urls', namespace='orders')),
         path('', include('vitamins.urls')),
+        path('api/', include('api.urls', namespace='api')),
         path('social-auth/', include('social_django.urls', namespace='social')),
         path('captcha/', include('captcha.urls')),
         path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='from django.contrib.sitemaps.views import sitemap')

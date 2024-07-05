@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'social_django',
     'orders.apps.OrdersConfig',
     'preorders.apps.PreordersConfig',
+    'api',
     'captcha',
     'django.contrib.sites',
     'django.contrib.sitemaps'
