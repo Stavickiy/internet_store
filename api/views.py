@@ -19,7 +19,7 @@ class VitaminsByCategory(ListAPIView):
 
     def get_queryset(self):
         category_id = self.kwargs['pk']
-        return Vitamin.objects.filter(cat_id=category_id)
+        return Vitamin.objects.filter(cat_id=category_id).order_by('count')
 
 
 class BrandViewSet(viewsets.ReadOnlyModelViewSet):
@@ -35,7 +35,7 @@ class VitaminsByBrand(ListAPIView):
 
     def get_queryset(self):
         brand_id = self.kwargs['pk']
-        return Vitamin.objects.filter(brand_id=brand_id)
+        return Vitamin.objects.filter(brand_id=brand_id).order_by('count')
 
 class VitaminAPIView(viewsets.ReadOnlyModelViewSet):
     queryset = Vitamin.objects.all()

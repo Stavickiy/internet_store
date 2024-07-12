@@ -4,7 +4,7 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags, format_html
 
-from herbdonbass import settings
+from internet_store import settings
 from preorders.models import PreOrder
 
 

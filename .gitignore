@@ -11,3 +11,6 @@ __pycache__/
 *$py.class
 .env
 ../.idea/
+/staticfiles/debug_toolbar/
+/staticfiles/django_extensions/
+staticfiles

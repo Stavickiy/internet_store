@@ -10,7 +10,7 @@ from django.urls import reverse_lazy
 from django.utils.html import strip_tags
 from django.views.generic import ListView, DetailView, CreateView, TemplateView
 
-from herbdonbass import settings
+from internet_store import settings
 from .forms import SearchForm, RequestForDeliveryForm
 from .models import Category, Vitamin, Brand, Tag, ExchangeRate, DeliveryCost, VitaminImage, Percent, DeliveryRequest
 

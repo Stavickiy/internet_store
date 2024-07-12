@@ -1,52 +1,47 @@
-# Интернет-магазин БАДов
-Основная часть реализована на Django, с использованием готовых шаблонов, которые были адаптированы под специфические задачи проекта.
+# Online store of dietary supplements
+The main part is implemented in Django, using ready-made templates that were adapted to the specific tasks of the project.
 
-## Содержание
-- [Основные функции](#основные-функции)
-- [Технологии](#технологии)
-- [Особенности](#особенности)
-- [Тестирование](#тестирование)
-- [Команда проекта](#команда-проекта)
+## Contents
+- [Main functions](#main-functions)
+- [Technologies](#technologies)
+- [Features](#features)
+- [Testing](#testing)
+- [Project team](#project-team)
 
-## Основные функции
-- Учет складских запасов: Реализовано управление запасами, что позволяет отслеживать наличие товаров.
-- Продажи и предзаказы: Возможность оформления предзаказов на товары, которые временно отсутствуют на складе.
-- Аутентификация через социальные сети: Вход и регистрация через социальные сети (VK, OK).
-- Различные фасовки товара: Отображение товара в разных фасовках на странице продукта.
-- Уведомления по электронной почте: Рассылка писем о подтверждении заказа, изменении его статуса и другой важной информации.
-- Промокоды: Введение промокодов с возможностью ограничения по сумме корзины и автоматическое применение при соблюдении условий.
-- Фильтрация товаров: Фильтрация товаров по брендам и категориям.
-- Адаптация фронтенда: Использование готовых шаблонов и их адаптация под задачи проекта.
+## Main functions
+- Inventory control: Inventory management has been implemented, which allows you to track the availability of goods.
+- Sales and pre-orders: The ability to place pre-orders for products that are temporarily out of stock.
+- Authentication via social networks.
+- Various product packaging: Displaying the product in different packaging on the product page.
+- Email notifications: Sending out emails about order confirmation, changes in its status, and other important information.
+- Promo codes: Introduction of promo codes with the ability to limit the basket amount and automatic application if the conditions are met.
+- Product filtering: Filtering products by brands and categories.
+- Frontend adaptation: Using ready-made templates and adapting them to the project tasks.
+- API for communication with the Telegram bot: Ability to integrate with the Telegram bot to receive current availability and prices by categories and brands.
 
-## Технологии
+## Technologies
 - Django
+- Django Rest Framework
 - JavaScript
 - HTML
 - CSS
 - Bootstrap
 - PostgreSQL
 
-## Особенности
-- Аутентификация через социальные сети: Позволяет пользователям входить и регистрироваться через VK и OK.
-- Уведомления по электронной почте: Система отправляет автоматические письма при оформлении заказа и изменении его статуса.
-- Промокоды: Система промокодов с ограничениями по сумме корзины и срокам действия.
-- Фасовка товара: Возможность отображения продукта в разных фасовках на одной странице.
-- Фильтрация товаров: Фильтрация товаров по различным критериям, таким как бренд и категория.
-- Адаптированный фронтенд: Готовые шаблоны были адаптированы под уникальные требования проекта.
+## Features
+- Email notifications: The system sends automatic letters when an order is placed and its status changes.
+- Promo codes: A system of promo codes with restrictions on the basket amount and expiration dates.
+- Product packaging: Ability to display the product in different packaging on one page.
+- Product filtering: Filter products by various criteria, such as brand and category.
+- Adapted frontend: Ready-made templates have been adapted to the unique requirements of the project.
 
-## Тестирование
+## Testing
 
-Наш проект покрыт Django тестами.
+Our project is covered with Django tests.
 
-## Ближайшие планы
-Подключение онлайн-кассы для автоматического проведения платежей и выдачи чеков.
+## Nearest plans
+Connecting an online cash register for automatic payments and issuing checks.
 
-## Команда проекта
+## Project team
 
-- [Евгений Ставицкий](https://t.me/Eugenius71991) — Python Developer
-
-## Источники
-Информацию черпал из документации и открытых источников.
-
-## Заключение
-Проект под доменом herbdonbass.ru
+- [Evgeny Stavitsky](https://t.me/Eugenius71991) — Python Developer

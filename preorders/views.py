@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.template.loader import render_to_string
 from django.utils.html import format_html, strip_tags
 
-from herbdonbass import settings
+from internet_store import settings
 from preorders.models import PreOrderCart, PreOrder, TypeDelivery, PreOrderItem, OrderStatus
 from vitamins.models import Vitamin, ExchangeRate, DeliveryCost
 from vitamins.views import calculate_price

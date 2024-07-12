@@ -1,7 +1,7 @@
 from django.db import models
 from django.urls import reverse
 
-from herbdonbass import settings
+from internet_store import settings
 from vitamins.models import Vitamin
 
 

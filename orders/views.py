@@ -8,7 +8,7 @@ from django.template.loader import render_to_string
 from django.utils.html import strip_tags, format_html
 
 from cart.views import calculator_cart
-from herbdonbass import settings
+from internet_store import settings
 from orders.models import OrderItem, Order, TypeDelivery, TypePayment, OrderStatus
 
 import logging
