@@ -1,5 +1,4 @@
 ../djvenv/
-media/
 cert.crt
 cert.key
 debug.log
