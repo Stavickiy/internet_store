@@ -127,7 +127,6 @@
                             {% else %}
                             <h6 class="text-info">Предзаказ</h6>
                             {% endif %}
-                        </p>
                     </div>
                     <hr>
                 </div>
@@ -140,7 +139,12 @@
                     <ul class="pagination justify-content-center justify-content-lg-end">
 
                         {% if page_obj.has_previous %}
-                        <li class="page-item mx-1"><a class="page-link" href="?page={{ page_obj.previous_page_number }}&brand={{ current_filters.brand }}&category={{ current_filters.category }}&tag={{ current_filters.tag }}&discount={{ current_filters.discount }}&query={{ current_filters.query }}" aria-label="Previous"><span
+                        <li class="page-item mx-1"><a class="page-link" href="?page={{ page_obj.previous_page_number }}
+                                                                               {% if current_filters.brand %}&brand={{ current_filters.brand }}{% endif %}
+                                                                               {% if current_filters.category %}&category={{ current_filters.category }}{% endif %}
+                                                                               {% if current_filters.tag %}&tag={{ current_filters.tag }}{% endif %}
+                                                                               {% if current_filters.discount %}&discount={{ current_filters.discount }}{% endif %}
+                                                                               {% if current_filters.query %}&query={{ current_filters.query }}{% endif %}" aria-label="Previous"><span
                                 aria-hidden="true">«</span></a></li>
                         {% endif %}
 
@@ -148,12 +152,22 @@
                         {% if page_obj.number == p %}
                             <li class="page-item mx-1 active"><a class="page-link" href="#">{{ p }}</a></li>
                         {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2 %}
-                            <li class="page-item mx-1"><a class="page-link" href="?page={{ p }}&brand={{ current_filters.brand }}&category={{ current_filters.category }}&tag={{ current_filters.tag }}&discount={{ current_filters.discount }}&query={{ current_filters.query }}">{{ p }}</a></li>
+                            <li class="page-item mx-1"><a class="page-link" href="?page={{ p }}
+                                                                                  {% if current_filters.brand %}&brand={{ current_filters.brand }}{% endif %}
+                                                                                  {% if current_filters.category %}&category={{ current_filters.category }}{% endif %}
+                                                                                  {% if current_filters.tag %}&tag={{ current_filters.tag }}{% endif %}
+                                                                                  {% if current_filters.discount %}&discount={{ current_filters.discount }}{% endif %}
+                                                                                  {% if current_filters.query %}&query={{ current_filters.query }}{% endif %}">{{ p }}</a></li>
                         {% endif %}
                         {% endfor %}
 
                         {% if page_obj.has_next %}
-                        <li class="page-item ms-1"><a class="page-link" href="?page={{ page_obj.next_page_number }}&brand={{ current_filters.brand }}&category={{ current_filters.category }}&tag={{ current_filters.tag }}&discount={{ current_filters.discount }}&query={{ current_filters.query }}" aria-label="Next"><span
+                        <li class="page-item ms-1"><a class="page-link" href="?page={{ page_obj.next_page_number }}
+                                                                              {% if current_filters.brand %}&brand={{ current_filters.brand }}{% endif %}
+                                                                              {% if current_filters.category %}&category={{ current_filters.category }}{% endif %}
+                                                                              {% if current_filters.tag %}&tag={{ current_filters.tag }}{% endif %}
+                                                                              {% if current_filters.discount %}&discount={{ current_filters.discount }}{% endif %}
+                                                                              {% if current_filters.query %}&query={{ current_filters.query }}{% endif %}" aria-label="Next"><span
                                 aria-hidden="true">»</span></a></li>
                         {% endif %}
                     </ul>

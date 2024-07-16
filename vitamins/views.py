@@ -1,3 +1,5 @@
+from typing import List
+
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import send_mail
@@ -15,7 +17,7 @@ from .forms import SearchForm, RequestForDeliveryForm
 from .models import Category, Vitamin, Brand, Tag, ExchangeRate, DeliveryCost, VitaminImage, Percent, DeliveryRequest
 
 
-def calculate_price(vitamins):
+def calculate_price(vitamins: List[Vitamin] | Vitamin) -> List[Vitamin] | Vitamin:
     """
     Gets vitamin object or queryset
 
@@ -47,6 +49,11 @@ class VitaminHome(ListView):
     model = Vitamin
     template_name = 'new/index.html'
     context_object_name = 'vitamins'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'iHerb Donbass Оригинальные витамины и бады из США'
+        return context
 
     def get_queryset(self):
         """
@@ -169,6 +176,8 @@ class ShopVitamin(ListView):
         }
         if self.request.GET.get('brand', ''):
             context['brand'] = get_object_or_404(Brand, slug=self.request.GET.get('brand', ''))
+        else:
+            context['brand'] = ''
         return context
 
     def get_queryset(self):

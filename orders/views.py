@@ -19,7 +19,7 @@ logger = logging.getLogger('django')
 
 
 @login_required
-def create_order_from_cart(request, shipping_address):
+def create_order_from_cart(request, shipping_address: str):
     """
     Creates an order from the items in the user's cart.
 
@@ -146,7 +146,7 @@ def orders_history(request):
 
 
 @login_required
-def order_detail(request, order_id):
+def order_detail(request, order_id: int):
     """
     Displays the details of a specific order.
 
@@ -165,7 +165,7 @@ def order_detail(request, order_id):
 
 
 @login_required
-def canceling_order(request, order_id):
+def canceling_order(request, order_id: int):
     """
     Cancels a specific order.
 

@@ -76,7 +76,7 @@ def calculator_cart(request):
 
 
 @login_required
-def add_to_cart(request, product_id):
+def add_to_cart(request, product_id: int):
     """
     Adds a product to the user's cart or increases its quantity if it already exists.
     """
@@ -106,7 +106,7 @@ def add_to_cart(request, product_id):
 
 
 @login_required
-def remove_from_cart(request, cart_item_id):
+def remove_from_cart(request, cart_item_id: int):
     """
     Removes a product from the user's cart.
     """

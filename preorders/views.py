@@ -34,7 +34,7 @@ def calculator_preorder_cart(request):
 
 
 @login_required
-def add_to_preorder_cart(request, product_id):
+def add_to_preorder_cart(request, product_id: int):
     """
     Adds a product to the user's preorders cart.
     """
@@ -53,7 +53,7 @@ def add_to_preorder_cart(request, product_id):
 
 
 @login_required
-def remove_from_preorder_cart(request, cart_item_id):
+def remove_from_preorder_cart(request, cart_item_id: int):
     """
     Removes a product from the user's preorders cart.
     """
@@ -67,7 +67,7 @@ def remove_from_preorder_cart(request, cart_item_id):
 
 
 @login_required
-def minus_from_preorder_cart(request, product_id):
+def minus_from_preorder_cart(request, product_id: int):
     """
     Decreases the quantity of a product in the user's preorders cart by 1.
     """
@@ -195,7 +195,7 @@ def checkout4(request):
 
 
 @login_required
-def create_order_from_cart(request, shipping_address):
+def create_order_from_cart(request, shipping_address: str):
     """
     Creates an preorder from the items in the user's cart.
 
@@ -316,7 +316,7 @@ def preorders_history(request):
 
 
 @login_required
-def preorder_detail(request, order_id):
+def preorder_detail(request, order_id: int):
     """
     Displays the details of a specific preorder.
 
@@ -335,7 +335,7 @@ def preorder_detail(request, order_id):
 
 
 @login_required
-def canceling_preorder(request, order_id):
+def canceling_preorder(request, order_id: int):
     """
     Cancels a specific preorder.
 
