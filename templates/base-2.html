@@ -45,13 +45,13 @@
 
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <!-- Link--><a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'home' %}">Главная</a>
+                            <!-- Link--><a class="nav-link {% if request.resolver_match and request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'home' %}">Главная</a>
                         </li>
                         <li class="nav-item">
-                            <!-- Link--><a class="nav-link {% if request.resolver_match.url_name == 'shop' and not current_filters.discount %}active{% endif %}" href="{% url 'shop' %}">Магазин</a>
+                            <!-- Link--><a class="nav-link {% if request.resolver_match and request.resolver_match.url_name == 'shop' and not current_filters.discount %}active{% endif %}" href="{% url 'shop' %}">Магазин</a>
                         </li>
                         <li class="nav-item">
-                            <!-- Link--><a class="nav-link {% if request.resolver_match.url_name == 'shop' and current_filters.discount %}active{% endif %}" href="{% url 'shop' %}?discount=True">Суперцена!</a>
+                            <!-- Link--><a class="nav-link {% if request.resolver_match and request.resolver_match.url_name == 'shop' and current_filters.discount %}active{% endif %}" href="{% url 'shop' %}?discount=True">Суперцена!</a>
                         </li>
                         <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" id="pagesDropdown" href="#"
                                                          data-bs-toggle="dropdown" aria-haspopup="true"
@@ -66,23 +66,23 @@
                             </div>
                         </li>
                         <li class="nav-item">
-                            <!-- Link--><a class="nav-link {% if request.resolver_match.url_name == 'request_for_delivery' %}active{% endif %}" href="{% url 'request_for_delivery' %}">Заявка на заказ</a>
+                            <!-- Link--><a class="nav-link {% if request.resolver_match and request.resolver_match.url_name == 'request_for_delivery' %}active{% endif %}" href="{% url 'request_for_delivery' %}">Заявка на заказ</a>
                         </li>
                     </ul>
 
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <!-- Link--><a class="nav-link {% if request.resolver_match.url_name == 'shop' %}active{% endif %}" href="{% url 'contacts' %}">Контакты</a>
+                            <!-- Link--><a class="nav-link {% if request.resolver_match and request.resolver_match.url_name == 'contacts' %}active{% endif %}" href="{% url 'contacts' %}">Контакты</a>
                         </li>
-                        <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'cart_detail' %}active{% endif %}" href="{% url 'cart:cart_detail' %}">
+                        <li class="nav-item"><a class="nav-link {% if request.resolver_match and request.resolver_match.url_name == 'cart_detail' %}active{% endif %}" href="{% url 'cart:cart_detail' %}">
                             <i class="fas fa-dolly-flatbed me-1 text-gray"></i>Корзина<small
                                 class="text-gray fw-normal">({% if cart_items_count %}{{ cart_items_count }}{% else %}0{% endif %})</small></a>
                         </li>
-                        <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'preorder_cart_detail' %}active{% endif %}" href="{% url 'preorders:preorder_cart_detail' %}">
+                        <li class="nav-item"><a class="nav-link {% if request.resolver_match and request.resolver_match.url_name == 'preorder_cart_detail' %}active{% endif %}" href="{% url 'preorders:preorder_cart_detail' %}">
                             <i class="far fa-heart me-1"></i>Предзаказ<small
                                 class="text-gray fw-normal"> ({% if preorder_cart_items_count is not None %}{{ preorder_cart_items_count }}{% else %}0{% endif %})</small></a></li>
                         {% if user.is_authenticated %}
-                        <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'profile' %}active{% endif %}" href="{% url 'users:profile' %}"> <i
+                        <li class="nav-item"><a class="nav-link {% if request.resolver_match and request.resolver_match.url_name == 'profile' %}active{% endif %}" href="{% url 'users:profile' %}"> <i
                                 class="fas fa-user me-1 text-gray fw-normal"></i>{{ user.username }}</a></li>
                         <li class="nav-item">
                             <form id="logout-form" action="{% url 'users:logout' %}" method="post" style="display: none;">

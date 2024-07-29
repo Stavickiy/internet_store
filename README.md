@@ -19,6 +19,8 @@ The main part is implemented in Django, using ready-made templates that were ada
 - Frontend adaptation: Using ready-made templates and adapting them to the project tasks.
 - API for communication with the Telegram bot: Ability to integrate with the Telegram bot to receive current availability and prices by categories and brands.
 
+![Описание изображения](media/img/main_page.png)
+
 ## Technologies
 - Django
 - Django Rest Framework

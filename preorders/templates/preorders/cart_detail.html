@@ -104,13 +104,8 @@
                                 class="text-muted small">Предварительная стоимость</strong><span
                                 class="text-muted small">{{ total_price_without_discount }}₽</span></li>
                         <li class="border-bottom my-2"></li>
-                        <li class="d-flex align-items-center justify-content-between"><strong
-                                class="text-muted small">Скидки</strong>
-                            <span class="text-info">{% if code_name %}{{code_name}}{% endif %}</span>
-                            <span class="text-muted small">-{{ discount }}₽</span></li>
-                        <li class="border-bottom my-2"></li>
                         <li class="d-flex align-items-center justify-content-between mb-4"><strong
-                                class="text-uppercase small font-weight-bold">Сумма со скидкой</strong><span>{{ total_price }}₽</span></li>
+                                class="text-uppercase small font-weight-bold">Сумма</strong><span>{{ total_price }}₽</span></li>
 
                     </ul>
                 </div>
